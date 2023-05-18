@@ -24,14 +24,21 @@
             width: 100%;
             height: 100%;
         }
+        
+        #pinkboard2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
     <canvas id="pinkboard"></canvas>
-    <div style="position: absolute; z-index: 1; font-size:220pt; width: 100%; height:100%; display: flex; align-items: center;justify-content: center; color: darkorange; font-family: math; opacity: 0.06;">
+    <canvas id="pinkboard2"></canvas>
+    <div style="position: absolute; z-index: 1; font-size:300pt; width: 100%; height:100%; display: flex; align-items: center;justify-content: center; color: darkorange; font-family: math; opacity: 0.06;">
     T T T
     </div>
-    <div style="font-size:26pt; width: 100%; height:100%; display: flex; align-items: center;justify-content: center; color: darkorange; font-family: math;">
+    <div style="font-size:30pt; width: 100%; height:100%; display: flex; align-items: center;justify-content: center; color: darkorange; font-family: math;">
     ali
     </div>
     <script>
@@ -235,10 +242,59 @@
                 // context.strokeStyle = ((Math.random())*10%4==0)? "#ea80b0": "#5aa0b0";
                 context.strokeStyle = strokeStyle;
                 context.strokeText("T", point.x, point.y);
+                /* context.moveTo(170, 100);
+                context.lineTo(270, 100);
+                context.lineWidth = 5;
+                context.strokeStyle = "red";
+                context.stroke();
+                context.beginPath();
+                context.moveTo(220, 100);
+                context.lineTo(220, 300);
+                context.lineWidth = 5;
+                context.strokeStyle = "red";
+                context.stroke(); */
+                /* context.closePath();
+                // create the fill
+                context.fillStyle = '#ea80b0';
+                context.fill(); */
+                // create the image
                 var image = new Image();
                 image.src = canvas.toDataURL();
                 return image;
             };
+            // creating the particle image using a dummy canvas
+            // 心形图形
+            /* var image = (function () {
+                var canvas = document.createElement('canvas'),
+                    context = canvas.getContext('2d');
+                canvas.width = settings.particles.size;
+                canvas.height = settings.particles.size;
+                // helper function to create the path
+                function to(t) {
+                    var point = pointOnHeart(t);
+                    point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
+                    point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
+                    return point;
+                }
+                // create the path
+                context.beginPath();
+                var t = -Math.PI;
+                var point = to(t);
+                context.moveTo(point.x, point.y);
+                while (t < Math.PI) {
+                    t += 0.01; // baby steps!
+                    point = to(t);
+                    context.lineTo(point.x, point.y);
+                }
+                context.closePath();
+                // create the fill
+                context.fillStyle = '#ea80b0';
+                context.fill();
+                // create the image
+                var image = new Image();
+                image.src = canvas.toDataURL();
+                return image;
+            })(); */
             function randomMoltenColors() {
               var r = Math.floor(Math.random() * 256).toString(16);
               var g = Math.floor(Math.random() * 86).toString(16);
@@ -296,6 +352,158 @@
                 render();
             }, 10);
         })(document.getElementById('pinkboard'));
+        /*
+        * Putting it all together
+        */
+        (function (canvas) {
+            var context = canvas.getContext('2d'),
+                particles = new ParticlePool(settings.particles.length),
+                particleRate = settings.particles.length / settings.particles.duration, // particles/sec
+                time;
+            // get point on heart with -PI <= t <= PI
+            function pointOnHeart(t) {
+                return new Point(
+                    160 * Math.pow(Math.sin(t), 3),
+                    130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25
+                );
+            }
+            // creating the particle image using a dummy canvas
+            var randomMoltenColors = function() {
+               var r = Math.floor(Math.random() * 256).toString(16);
+                var g = Math.floor(Math.random() * 86).toString(16);
+                var b = (Math.floor(Math.random() * 87) + 169).toString(16);
+                return "#" + (r.length == 1 ? "0" + r : r) + (g.length == 1 ? "0" + g : g) + (b.length == 1 ? "0" + b : b);
+            };
+            // T 图形
+            var image = function (strokeStyle) {
+                var canvas = document.createElement('canvas'),
+                    context = canvas.getContext('2d');
+                canvas.width = settings.particles.size;
+                canvas.height = settings.particles.size;
+                // helper function to create the path
+                function to(t) {
+                    var point = pointOnHeart(t);
+                    point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
+                    point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
+                    return point;
+                }
+                var t = -Math.PI;
+                var point = to(t);
+                // console.log(Math.random());
+                context.font="20px Arial";
+                // context.strokeStyle = ((Math.random())*10%4==0)? "#ea80b0": "#5aa0b0";
+                context.strokeStyle = strokeStyle;
+                context.strokeText("T", point.x, point.y);
+                /* context.moveTo(170, 100);
+                context.lineTo(270, 100);
+                context.lineWidth = 5;
+                context.strokeStyle = "red";
+                context.stroke();
+                context.beginPath();
+                context.moveTo(220, 100);
+                context.lineTo(220, 300);
+                context.lineWidth = 5;
+                context.strokeStyle = "red";
+                context.stroke(); */
+                /* context.closePath();
+                // create the fill
+                context.fillStyle = '#ea80b0';
+                context.fill(); */
+                // create the image
+                var image = new Image();
+                image.src = canvas.toDataURL();
+                return image;
+            };
+            // creating the particle image using a dummy canvas
+            // 心形图形
+            /* var image = (function () {
+                var canvas = document.createElement('canvas'),
+                    context = canvas.getContext('2d');
+                canvas.width = settings.particles.size;
+                canvas.height = settings.particles.size;
+                // helper function to create the path
+                function to(t) {
+                    var point = pointOnHeart(t);
+                    point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
+                    point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
+                    return point;
+                }
+                // create the path
+                context.beginPath();
+                var t = -Math.PI;
+                var point = to(t);
+                context.moveTo(point.x, point.y);
+                while (t < Math.PI) {
+                    t += 0.01; // baby steps!
+                    point = to(t);
+                    context.lineTo(point.x, point.y);
+                }
+                context.closePath();
+                // create the fill
+                context.fillStyle = '#ea80b0';
+                context.fill();
+                // create the image
+                var image = new Image();
+                image.src = canvas.toDataURL();
+                return image;
+            })(); */
+            function randomMoltenColors() {
+              var r = Math.floor(Math.random() * 256).toString(16);
+              var g = Math.floor(Math.random() * 86).toString(16);
+              var b = (Math.floor(Math.random() * 87) + 169).toString(16);
+              return "#" + (r.length == 1 ? "0" + r : r) + (g.length == 1 ? "0" + g : g) + (b.length == 1 ? "0" + b : b);
+            }
+            function shuffleAndSplit(arr, numGroups) {
+              // 首先，将数组随机打乱
+              var shuffled = arr.sort(function(){return 0.5 - Math.random()});
+
+              // 然后，根据指定的组数拆分数组
+              var result = [];
+              var groupSize = Math.floor(arr.length / numGroups);
+              var remainder = arr.length % numGroups;
+              var start = 0;
+              for (var i = 0; i < numGroups; i++) {
+                var end = start + groupSize + (i < remainder ? 1 : 0);
+                result.push(shuffled.slice(start, end));
+                start = end;
+              }
+
+              return result;
+            }
+
+            // render that thing!
+						function render() {
+                // next animation frame
+                requestAnimationFrame(render);
+                // update time
+                var newTime = new Date().getTime() / 2000,
+                    deltaTime = newTime - (time || newTime);
+                time = newTime;
+                // clear canvas
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                // create new particles
+                var amount = particleRate * deltaTime;
+                for (var i = 0; i < amount; i++) {
+                    var pos = pointOnHeart(Math.PI - 3 * Math.PI * Math.random());
+                    var dir = pos.clone().length(settings.particles.velocity);
+                    particles.add(canvas.width / 3 + pos.x, canvas.height / 3 - pos.y, dir.x, -dir.y);
+                }
+                // update and draw particles
+                particles.update(deltaTime);
+                particles.draw(context, image("#ca80b0"));
+            }
+            // handle (re-)sizing of the canvas
+            function onResize() {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+            }
+            window.onresize = onResize;
+            // delay rendering bootstrap
+            setTimeout(function () {
+                onResize();
+                render();
+            }, 10);
+        })(document.getElementById('pinkboard2'));
     </script>
 </body>
 </html>
