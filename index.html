@@ -30,6 +30,26 @@
             width: 100%;
             height: 100%;
         }
+	    
+        .breathing-animation {
+            animation: breathing 3s ease-in-out infinite;
+        }
+        
+        @keyframes breathing {
+            0% { transform: scale(1); opacity: 0.06; }
+            50% { transform: scale(1.2); opacity: 0.12; }
+            100% { transform: scale(1); opacity: 0.06; }
+        }
+        
+        .breathing-animation-y {
+            animation: breathing-y 3s ease-in-out infinite;
+        }
+        
+        @keyframes breathing-y {
+            0% { transform: scale(1); opacity: 0.05; }
+            50% { transform: scale(1.2); opacity: 0.1; }
+            100% { transform: scale(1); opacity: 0.05; }
+        }
     </style>
 </head>
 <body>
